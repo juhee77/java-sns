@@ -1,6 +1,8 @@
 package com.lahee.mutsasns.service;
 
 
+import com.lahee.mutsasns.domain.File;
+import com.lahee.mutsasns.domain.FolderType;
 import com.lahee.mutsasns.domain.User;
 import com.lahee.mutsasns.dto.user.LoginDto;
 import com.lahee.mutsasns.dto.user.SignupDto;
@@ -17,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -29,6 +32,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final UserDetailsService userDetailsService;
+    private final FileService fileService;
 
     public TokenDto login(LoginDto loginDto) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginDto.getUsername());
@@ -53,6 +57,21 @@ public class UserService {
                 .build();
 
         return UserResponseDto.fromEntity(userRepository.save(user));
+    }
+
+    @Transactional
+    public UserResponseDto saveUserImage(String username, MultipartFile image, String currentUsername) {
+        //user찾기
+        if (!username.equals(currentUsername)) {
+            throw new CustomException(ErrorCode.ERROR_BAD_REQUEST); //유저 이름과 현재 로그인한 유저가 다르다, 잘못된 URL경로
+        }
+        User user = getUser(currentUsername);
+        if (user.getImage() != null) {
+            fileService.dropFile(user.getImage());
+        }
+        File file = fileService.saveOneFile(FolderType.USER, user.getId(), image);
+        user.updateProfileImage(file);
+        return UserResponseDto.fromEntity(user);
     }
 
     public UserResponseDto getUserDto(String username) {

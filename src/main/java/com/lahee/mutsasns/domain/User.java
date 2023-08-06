@@ -26,6 +26,13 @@ public class User extends BaseEntity {
     private String email;
     @Column(unique = true)
     private String phone;
+    @OneToOne
+    private File image;
+
+
+    public void updateProfileImage(File file) {
+        this.image = file;
+    }
 
     @Override
     public String toString() {

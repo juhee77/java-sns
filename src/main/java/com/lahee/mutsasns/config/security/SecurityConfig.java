@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenFilter jwtTokenFilter;
+
     private static final String[] PERMIT_ALL_PATTERNS = new String[] {
             "/v3/api-docs/**",
             "/configuration/**",
@@ -40,21 +41,8 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/docs",
             "/static/**",
-            "/user/auth/**",
+            "/api/user/auth/**",
     };
-//    @Bean
-//    public WebSecurityCustomizer configure() {
-//        return (web) -> web.ignoring()
-//                .requestMatchers("/static/**")
-//                .requestMatchers("/v3/api-docs")
-//                .requestMatchers("/swagger-resources/**")
-//                .requestMatchers("/swagger-ui/**")
-//                .requestMatchers("/webjars/**")
-//                .requestMatchers("/swagger/**")
-//                .requestMatchers("/api-docs/**")
-//                .requestMatchers("/swagger-ui/**")
-//                ;
-//    }
 
     @Bean //메서드의 결과를 bean 객체로 등록해주는 어노테이션
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AccessDeniedHandler ad, AuthenticationEntryPoint ap, CorsFilter cf) throws Exception {
@@ -82,13 +70,12 @@ public class SecurityConfig {
 
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
-        log.warn("accessDeniedHandler");
         return (request, response, e) -> {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.setContentType("text/plain;charset=UTF-8");
-            response.getWriter().write("ACCESS DENIED");
-            response.getWriter().flush();
-            response.getWriter().close();
+//            response.setContentType("text/plain;charset=UTF-8");
+//            response.getWriter().write("ACCESS DENIED");
+//            response.getWriter().flush();
+//            response.getWriter().close();
         };
     }
 
@@ -96,10 +83,10 @@ public class SecurityConfig {
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, e) -> {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("text/plain;charset=UTF-8");
-            response.getWriter().write("UNAUTHORIZED");
-            response.getWriter().flush();
-            response.getWriter().close();
+//            response.setContentType("text/plain;charset=UTF-8");
+//            response.getWriter().write("UNAUTHORIZED");
+//            response.getWriter().flush();
+//            response.getWriter().close();
         };
     }
 
