@@ -1,1 +1,21 @@
+spring:
+  profiles:
+    default: dev
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mvc:
+    static-path-pattern: /static/**
+  web:
+    resources:
+      static-locations: file:media/,classpath:/static,classpath:/static/static
 
+jwt:
+  secret: n714+9J8YzJPHXwB/j+D4TiXc8lr70oADvuEMH0y1r/t5juDBzEA0dsaN4p3AsLdZ/t20lOViNOSCTHP1RKjOA==
+  accessExpirationTime: 3600
+
+springdoc:
+  version: openapi_3_0
+  swagger-ui:
+    path: /swagger-ui.html

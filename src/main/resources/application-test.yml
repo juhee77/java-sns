@@ -1,0 +1,9 @@
+database-platform: org.hibernate.community.dialect.SQLiteDialect
+defer-datasource-initialization: true
+sql:
+  init:
+    mode: always
+
+logging:
+  level:
+    root: info
