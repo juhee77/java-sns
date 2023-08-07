@@ -2,8 +2,10 @@ package com.lahee.mutsasns.service;
 
 import com.lahee.mutsasns.domain.FriendShip;
 import com.lahee.mutsasns.domain.FriendshipStatus;
+import com.lahee.mutsasns.domain.Post;
 import com.lahee.mutsasns.domain.User;
 import com.lahee.mutsasns.dto.friendShip.FriendShipResponseDto;
+import com.lahee.mutsasns.dto.post.PostResponseDto;
 import com.lahee.mutsasns.exception.CustomException;
 import com.lahee.mutsasns.exception.ErrorCode;
 import com.lahee.mutsasns.repository.FriendShipRepository;
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -67,15 +70,6 @@ public class FriendShipService {
         return FriendShipResponseDto.fromEntity(friendShip);
     }
 
-    public List<FriendShipResponseDto> getMyFriend(String username) {
-        User user = userService.getUser(username);
-        return friendShipRepository
-                .findFriendShipByUser(user)
-                .stream()
-                .map(FriendShipResponseDto::fromEntity)
-                .collect(Collectors.toList());
-    }
-
     public FriendShip getFriendShip(Long id) {
         Optional<FriendShip> byId = friendShipRepository.findById(id);
         if (byId.isPresent()) {
@@ -83,4 +77,26 @@ public class FriendShipService {
         }
         throw new CustomException(ErrorCode.FRIEND_SHIP_NOT_FOUND);
     }
+
+
+    public List<PostResponseDto> getFriendsPost(String username, String currentUsername) {
+        if (!username.equals(currentUsername))
+            throw new CustomException(ErrorCode.ERROR_UNAUTHORIZED);
+
+        User user = userService.getUser(username);
+
+
+        List<FriendShip> friendShipByUser = friendShipRepository.findFriendShipByUser(user);
+
+        List<User> friends = friendShipByUser.stream()
+                .map(friendShip -> friendShip.getReceiver() == user ? friendShip.getSender() : friendShip.getReceiver())
+                .toList();
+
+        return friends.stream()
+                .flatMap(u -> u.getPosts().stream())
+                .sorted(Comparator.comparingLong(Post::getId).reversed())
+                .map(PostResponseDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
 }

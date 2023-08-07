@@ -21,7 +21,6 @@ import static com.lahee.mutsasns.util.SecurityUtil.getCurrentUsername;
 @Slf4j
 public class FriendShipController {
     private final FriendShipService friendShipService;
-    private final UserService userService;
 
     @Operation(summary = "친구 신청")
     @PostMapping("/friend-ship/{friendName}")

@@ -22,8 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -120,4 +122,22 @@ public class UserService {
         }
         return dtos;
     }
+
+    public List<PostResponseDto> getFollowingPost(String name, String currentName) {
+        if (!name.equals(currentName))
+            throw new CustomException(ErrorCode.ERROR_UNAUTHORIZED);
+
+        User user = getUser(name);
+        List<Following> following = user.getFollowing();
+
+        List<Post> posts = following.stream()
+                .flatMap(followingUser -> followingUser.getFollowing().getPosts().stream())
+                .sorted(Comparator.comparingLong(Post::getId).reversed())
+                .collect(Collectors.toList());
+
+        return posts.stream()
+                .map(PostResponseDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
 }

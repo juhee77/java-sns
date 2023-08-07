@@ -4,6 +4,7 @@ package com.lahee.mutsasns.controller;
 import com.lahee.mutsasns.dto.ApiResponse;
 import com.lahee.mutsasns.dto.post.PostResponseDto;
 import com.lahee.mutsasns.dto.user.UserResponseDto;
+import com.lahee.mutsasns.service.FriendShipService;
 import com.lahee.mutsasns.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import static com.lahee.mutsasns.util.SecurityUtil.getCurrentUsername;
 @Slf4j
 public class UserController {
     private final UserService userService;
+    private final FriendShipService friendShipService;
 
     @GetMapping("/my/profile")
     @Operation(summary = "현재 유저 확인")
@@ -30,17 +32,36 @@ public class UserController {
         return new ApiResponse<>(HttpStatus.OK, userService.getUserDto(getCurrentUsername()));
     }
 
-
     @RequestMapping(value = "/{username}/image", method = {RequestMethod.PUT, RequestMethod.POST}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "유저 사진 업로드")
-    public ApiResponse<UserResponseDto> saveItemImage(@PathVariable("username") String username, @RequestPart("image") MultipartFile image) {
+    public ApiResponse<UserResponseDto> saveItemImage(
+            @PathVariable("username") String username,
+            @RequestPart("image") MultipartFile image
+    ) {
         UserResponseDto userResponseDto = userService.saveUserImage(username, image, getCurrentUsername());
         return ApiResponse.success(userResponseDto);
     }
 
     @GetMapping("/{username}")
-    public ApiResponse<List<PostResponseDto>> getMyPost(@PathVariable("username") String username) {
+    public ApiResponse<List<PostResponseDto>> getMyPost(
+            @PathVariable("username") String username
+    ) {
         List<PostResponseDto> postResponseDtos = userService.getPost(username);
         return ApiResponse.success(postResponseDtos);
+    }
+
+    @GetMapping("/{username}/following/feed")
+    public ApiResponse<List<PostResponseDto>> getFollowingPosts(
+            @PathVariable("username") String username
+    ) {
+        return ApiResponse.success(userService.getFollowingPost(username, getCurrentUsername()));
+    }
+
+
+    @GetMapping("/{username}/friends/feed")
+    public ApiResponse<List<PostResponseDto>> getFriendsPosts(
+            @PathVariable("username") String username
+    ) {
+        return ApiResponse.success(friendShipService.getFriendsPost(username, getCurrentUsername()));
     }
 }
