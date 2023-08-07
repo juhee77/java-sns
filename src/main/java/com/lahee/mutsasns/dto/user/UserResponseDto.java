@@ -24,7 +24,7 @@ public class UserResponseDto {
         if (user.getImage() != null) {
             userResponseDto.profileImage = FileResponseDto.fromEntity(user.getImage());
         } else {
-            userResponseDto.profileImage = FileResponseDto.getDefault();
+            userResponseDto.profileImage = FileResponseDto.getDefaultUser();
         }
 
         return userResponseDto;
