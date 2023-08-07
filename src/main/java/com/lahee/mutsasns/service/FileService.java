@@ -24,6 +24,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class FileService {
     private final FileRepository fileRepository;
 
@@ -78,7 +79,7 @@ public class FileService {
             String extension = fileNameSplit[fileNameSplit.length - 1];
             String uuid = UUID.randomUUID().toString();
             String storeFileName = uuid + "." + extension;
-            String profilePath = profileDir + (folderName + "_" + index + "." + extension);
+            String profilePath = profileDir + storeFileName;
 
             try {
                 image.transferTo(Path.of(profilePath));

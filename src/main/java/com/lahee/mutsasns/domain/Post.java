@@ -1,6 +1,9 @@
 package com.lahee.mutsasns.domain;
 
 
+import com.lahee.mutsasns.dto.post.PostRequestDto;
+import com.lahee.mutsasns.exception.CustomException;
+import com.lahee.mutsasns.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -42,4 +45,21 @@ public class Post extends BaseEntity {
     @Builder.Default
     private List<File> postfiles = new ArrayList<>();
 
+    public static Post getEntityInstance(PostRequestDto postRequestDto, User user) {
+        return Post.builder()
+                .title(postRequestDto.getTitle())
+                .text(postRequestDto.getText())
+                .user(user)
+                .build();
+    }
+
+    public void uploadFiles(List<File> files) {
+        postfiles = files;
+    }
+
+    public void validUser(User user) {
+        if (!this.user.equals(user)) {
+            throw new CustomException(ErrorCode.ERROR_FORBIDDEN);
+        }
+    }
 }
