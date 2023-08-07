@@ -42,11 +42,7 @@ public class PostService {
         Post post = getPost(id);
         post.validUser(user);//해당 유저의 포스트가 맞는지 확인한다.
 
-        if (post.getPostfiles() != null || post.getPostfiles().size() > 0) { //기존에 이미지가 있는 경우 드랍
-            for (File postfile : post.getPostfiles()) {
-                fileService.dropFile(postfile);
-            }
-        }
+        dropPostFiles(post);
 
         post.uploadFiles(fileService.saveMultiFile(FolderType.POST, post.getId(), files));
         return PostResponseDto.fromEntity(post);
@@ -58,9 +54,7 @@ public class PostService {
         Post post = getPost(id);
         post.validUser(user);//해당 유저의 포스트가 맞는지 확인한다.
 
-        if (post.getThumbnail() != null) {
-            fileService.dropFile(post.getThumbnail());
-        }
+        dropThumbnailImage(post);
 
         post.uploadThumbnail(fileService.saveOneFile(FolderType.POST_THUMB, post.getId(), file));
         return PostResponseDto.fromEntity(post);
@@ -83,6 +77,57 @@ public class PostService {
         return PostDetailsResponseDto.fromEntity(post);
     }
 
+    @Transactional
+    public PostResponseDto updatePostById(Long postId, PostRequestDto postRequestDto, List<MultipartFile> files, MultipartFile file, String currentUsername) {
+        User user = userService.getUser(currentUsername);
+        Post post = getPost(postId);
+        post.validUser(user);//수정 권한이 있는 사람인지
+
+        //내용 업데이트
+        PostResponseDto save = updatePost(post, postRequestDto);
+
+        //이미지 업데이트
+        if (file != null) save = savePostThumbnail(postId, file, currentUsername);
+        else if (file == null && files != null) {
+            save = savePostThumbnail(postId, files.get(0), currentUsername);
+        }
+        if (files != null) save = savePostImages(postId, files, currentUsername);
+
+        return save;
+    }
+
+    @Transactional
+    public PostResponseDto updatePost(Post post,PostRequestDto postRequestDto) {
+        post.update(postRequestDto);
+        return PostResponseDto.fromEntity(post);
+
+    }
+
+    @Transactional
+    public void deletePostById(Long postId, String username) {
+        User user = userService.getUser(username);
+        Post post = getPost(postId);
+        post.validUser(user);
+
+        //이미지 드랍
+        dropPostFiles(post);
+        dropThumbnailImage(post);
+        postRepository.delete(post);
+    }
+
+    private void dropPostFiles(Post post) {
+        if (post.getPostfiles() != null || post.getPostfiles().size() > 0) { //기존에 이미지가 있는 경우 드랍
+            for (File postfile : post.getPostfiles()) {
+                fileService.dropFile(postfile);
+            }
+        }
+    }
+
+    private void dropThumbnailImage(Post post) {
+        if (post.getThumbnail() != null) {
+            fileService.dropFile(post.getThumbnail());
+        }
+    }
 
     public Post getPost(Long id) {
         Optional<Post> post = postRepository.findById(id);

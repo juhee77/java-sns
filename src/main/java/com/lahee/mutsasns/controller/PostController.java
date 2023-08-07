@@ -5,6 +5,7 @@ import com.lahee.mutsasns.dto.post.PostDetailsResponseDto;
 import com.lahee.mutsasns.dto.post.PostRequestDto;
 import com.lahee.mutsasns.dto.post.PostResponseDto;
 import com.lahee.mutsasns.service.PostService;
+import com.lahee.mutsasns.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -28,17 +29,36 @@ public class PostController {
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ApiResponse<PostResponseDto> savePostWithImage(
             @Valid @RequestPart(value = "postRequestDto") @Parameter(schema = @Schema(type = "string", format = ("binary"))) PostRequestDto postRequestDto,
-//            @Valid @RequestPart @Parameter(name = "postRequestDto",content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE )) PostRequestDto postRequestDto,
             @RequestPart(name = "files", required = false) @Parameter(description = "포스트 이미지") List<MultipartFile> files,
-            @RequestPart(name = "file", required = false) @Parameter(description = "포스트 썸네일 이미지 등록하지 않는 경우 자동으로 처음이미지 설정") MultipartFile file) {
-
+            @RequestPart(name = "file", required = false) @Parameter(description = "포스트 썸네일 이미지 등록하지 않는 경우 자동으로 처음이미지 설정") MultipartFile file
+    ) {
         PostResponseDto postResponseDto = postService.saveWithImages(postRequestDto, files, file, getCurrentUsername());
         return ApiResponse.success(postResponseDto);
     }
 
     @GetMapping("/{postId}")
-    public ApiResponse<PostDetailsResponseDto> getOnePost(@PathVariable("postId") Long postId) {
+    public ApiResponse<PostDetailsResponseDto> getOnePost(@PathVariable("postId") Long postId
+    ) {
         PostDetailsResponseDto postById = postService.getPostById(postId);
         return ApiResponse.success(postById);
+    }
+
+    @PutMapping(value = "/{postId}",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public ApiResponse<PostResponseDto> updatePost(
+            @PathVariable("postId") Long postId,
+            @Valid @RequestPart(value = "postRequestDto") @Parameter(schema = @Schema(type = "string", format = ("binary"))) PostRequestDto postRequestDto,
+            @RequestPart(name = "files", required = false) @Parameter(description = "포스트 이미지") List<MultipartFile> files,
+            @RequestPart(name = "file", required = false) @Parameter(description = "포스트 썸네일 이미지 등록하지 않는 경우 자동으로 처음이미지 설정") MultipartFile file
+    ) {
+        PostResponseDto postById = postService.updatePostById(postId, postRequestDto, files, file, SecurityUtil.getCurrentUsername());
+        return ApiResponse.success(postById);
+    }
+
+    @DeleteMapping("/{postId}")
+    public ApiResponse<String> deletePost(
+            @PathVariable("postId") Long postId
+    ) {
+        postService.deletePostById(postId,getCurrentUsername());
+        return ApiResponse.success("포스트를 삭제했습니다");
     }
 }
