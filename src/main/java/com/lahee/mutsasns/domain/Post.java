@@ -69,9 +69,17 @@ public class Post extends BaseEntity {
         thumbnail = file;
     }
 
-    public void validUser(User user) {
+    public void validSameUser(User user) {
         if (!this.user.equals(user)) {
             throw new CustomException(ERROR_UNAUTHORIZED);
         }
     }
+
+    public void validNotSameUser(User user) {
+        if (this.user.equals(user)) {
+            throw new CustomException(ErrorCode.ERROR_MY_POST);
+        }
+    }
+
+
 }

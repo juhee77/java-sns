@@ -28,4 +28,10 @@ public class PostHeart extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     private Post post;
 
+    public static PostHeart getInstance(Post post, User user) {
+        return PostHeart.builder()
+                .post(post)
+                .user(user)
+                .build();
+    }
 }

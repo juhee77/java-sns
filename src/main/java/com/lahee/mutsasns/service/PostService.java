@@ -40,7 +40,7 @@ public class PostService {
     public PostResponseDto savePostImages(Long id, List<MultipartFile> files, String currentUsername) {
         User user = userService.getUser(currentUsername);
         Post post = getPost(id);
-        post.validUser(user);//해당 유저의 포스트가 맞는지 확인한다.
+        post.validSameUser(user);//해당 유저의 포스트가 맞는지 확인한다.
 
         dropPostFiles(post);
 
@@ -52,7 +52,7 @@ public class PostService {
     public PostResponseDto savePostThumbnail(Long id, MultipartFile file, String currentUsername) {
         User user = userService.getUser(currentUsername);
         Post post = getPost(id);
-        post.validUser(user);//해당 유저의 포스트가 맞는지 확인한다.
+        post.validSameUser(user);//해당 유저의 포스트가 맞는지 확인한다.
 
         dropThumbnailImage(post);
 
@@ -81,7 +81,7 @@ public class PostService {
     public PostResponseDto updatePostById(Long postId, PostRequestDto postRequestDto, List<MultipartFile> files, MultipartFile file, String currentUsername) {
         User user = userService.getUser(currentUsername);
         Post post = getPost(postId);
-        post.validUser(user);//수정 권한이 있는 사람인지
+        post.validSameUser(user);//수정 권한이 있는 사람인지
 
         //내용 업데이트
         PostResponseDto save = updatePost(post, postRequestDto);
@@ -97,7 +97,7 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto updatePost(Post post,PostRequestDto postRequestDto) {
+    public PostResponseDto updatePost(Post post, PostRequestDto postRequestDto) {
         post.update(postRequestDto);
         return PostResponseDto.fromEntity(post);
 
@@ -107,7 +107,7 @@ public class PostService {
     public void deletePostById(Long postId, String username) {
         User user = userService.getUser(username);
         Post post = getPost(postId);
-        post.validUser(user);
+        post.validSameUser(user);
 
         //이미지 드랍
         dropPostFiles(post);

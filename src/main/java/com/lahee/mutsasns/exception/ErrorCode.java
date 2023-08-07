@@ -24,7 +24,7 @@ public enum ErrorCode {
 
     INVALID_PASSWORD(404, "", "패스워드가 일치하지 않습니다."),
     ALREADY_USED_USERNAME(400,"" , "이미 사용된 유저이름 입니다"),
-    ;
+    ERROR_MY_POST(401,"ERR_UNAUTHORIZED" ,"자신이 작성한 게시글에는 좋아요가 불가능합니다." );
 
 
     int status;
