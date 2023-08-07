@@ -6,5 +6,6 @@ public final class constants {
     public static String DELETE_POST_MSG = "포스트를 삭제했습니다";
     public static String LIKE_UP = "게시글에 좋아요를 눌렀습니다.";
     public static String LIKE_DOWN = "게시글 좋아요를 취소했습니다.";
+    public static String UNFOLLOW_MSG = "팔로우를 취소했습니다.";
 
 }

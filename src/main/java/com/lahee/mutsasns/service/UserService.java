@@ -1,10 +1,8 @@
 package com.lahee.mutsasns.service;
 
 
-import com.lahee.mutsasns.domain.File;
-import com.lahee.mutsasns.domain.FolderType;
-import com.lahee.mutsasns.domain.Post;
-import com.lahee.mutsasns.domain.User;
+import com.lahee.mutsasns.domain.*;
+import com.lahee.mutsasns.dto.following.FollowingResponseDto;
 import com.lahee.mutsasns.dto.post.PostResponseDto;
 import com.lahee.mutsasns.dto.user.LoginDto;
 import com.lahee.mutsasns.dto.user.SignupDto;
@@ -97,5 +95,29 @@ public class UserService {
             postResponseDtos.add(PostResponseDto.fromEntity(post));
         }
         return postResponseDtos;
+    }
+
+    public List<FollowingResponseDto> getFollowingList(String name, String currentName) {
+        if (!name.equals(currentName))
+            throw new CustomException(ErrorCode.ERROR_UNAUTHORIZED);
+
+        User user = getUser(name);
+        List<FollowingResponseDto> dtos = new ArrayList<>();
+        for (Following following : user.getFollowing()) {
+            dtos.add(FollowingResponseDto.fromEntity(following));
+        }
+        return dtos;
+    }
+
+    public List<FollowingResponseDto> getFollowerList(String name, String currentName) {
+        if (!name.equals(currentName))
+            throw new CustomException(ErrorCode.ERROR_UNAUTHORIZED);
+
+        User user = getUser(name);
+        List<FollowingResponseDto> dtos = new ArrayList<>();
+        for (Following follower : user.getFollower()) {
+            dtos.add(FollowingResponseDto.fromEntity(follower));
+        }
+        return dtos;
     }
 }

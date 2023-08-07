@@ -51,11 +51,11 @@ public class User extends BaseEntity {
     private List<PostHeart> postHearts = new ArrayList<>();
 
     @Builder.Default //내가 팔로잉하는 사람
-    @OneToMany(fetch = LAZY, mappedBy = "userA", cascade = CascadeType.ALL)
+    @OneToMany(fetch = LAZY, mappedBy = "follower", cascade = CascadeType.ALL)
     private List<Following> following = new ArrayList<>();
 
     @Builder.Default //나의 팔로워
-    @OneToMany(fetch = LAZY, mappedBy = "userB", cascade = CascadeType.ALL)
+    @OneToMany(fetch = LAZY, mappedBy = "following", cascade = CascadeType.ALL)
     private List<Following> follower = new ArrayList<>();
 
     public void updateProfileImage(File file) {

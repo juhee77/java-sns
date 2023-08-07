@@ -25,10 +25,17 @@ public class Following extends BaseEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "follower_id")
-    private User userA;
+    private User follower;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "following_id")
-    private User userB;
+    private User following;
+
+    public static Following getInstance(User user, User following) {
+        return Following.builder()
+                .follower(user)
+                .following(following)
+                .build();
+    }
 
 }
