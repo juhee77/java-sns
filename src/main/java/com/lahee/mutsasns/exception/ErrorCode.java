@@ -17,7 +17,11 @@ public enum ErrorCode {
     ERROR_GATEWAY_TIMEOUT(504, "ERR_GATEWAY_TIMEOUT", "Gateway timeout"),
     ERROR_NETWORK_AUTHENTICATION_REQUIRED(511, "ERR_NETWORK_AUTH_REQUIRED", "Network authentication required"),
 
-    USER_NOT_FOUND_EXCEPTION(404, "", "찾을 수 없는 유저 입니다."),
+    USER_NOT_FOUND(404, "ERR_NOT_FOUND", "찾을 수 없는 유저 입니다."),
+    FILE_NOT_FOUND(404, "ERR_NOT_FOUND", "찾을 수 없는 파일 입니다."),
+    COMMENT_NOT_FOUND(404, "ERR_NOT_FOUND", "찾을 수 없는 코멘트 입니다."),
+    POST_NOT_FOUND(404, "ERR_NOT_FOUND", "찾을 수 없는 포스트 입니다."),
+
     INVALID_PASSWORD(404, "", "패스워드가 일치하지 않습니다."),
     ALREADY_USED_USERNAME(400,"" , "이미 사용된 유저이름 입니다"),
     ;

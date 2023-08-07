@@ -1,6 +1,7 @@
 package com.lahee.mutsasns.controller;
 
 import com.lahee.mutsasns.dto.ApiResponse;
+import com.lahee.mutsasns.dto.MessageResponse;
 import com.lahee.mutsasns.dto.post.PostDetailsResponseDto;
 import com.lahee.mutsasns.dto.post.PostRequestDto;
 import com.lahee.mutsasns.dto.post.PostResponseDto;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static com.lahee.mutsasns.constants.constants.DELETE_POST_MSG;
 import static com.lahee.mutsasns.util.SecurityUtil.getCurrentUsername;
 
 @RequestMapping("api/post")
@@ -55,10 +57,10 @@ public class PostController {
     }
 
     @DeleteMapping("/{postId}")
-    public ApiResponse<String> deletePost(
+    public ApiResponse<MessageResponse> deletePost(
             @PathVariable("postId") Long postId
     ) {
         postService.deletePostById(postId,getCurrentUsername());
-        return ApiResponse.success("포스트를 삭제했습니다");
+        return ApiResponse.success(MessageResponse.getInstance(DELETE_POST_MSG));
     }
 }

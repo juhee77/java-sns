@@ -12,6 +12,8 @@ import org.hibernate.annotations.Where;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lahee.mutsasns.exception.ErrorCode.ERROR_UNAUTHORIZED;
+
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -69,7 +71,7 @@ public class Post extends BaseEntity {
 
     public void validUser(User user) {
         if (!this.user.equals(user)) {
-            throw new CustomException(ErrorCode.ERROR_FORBIDDEN);
+            throw new CustomException(ERROR_UNAUTHORIZED);
         }
     }
 }

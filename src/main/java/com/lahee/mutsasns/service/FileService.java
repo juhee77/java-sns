@@ -103,14 +103,6 @@ public class FileService {
         fileRepository.delete(file);
     }
 
-    public File getFile(Long id) {
-        Optional<File> file = fileRepository.findById(id);
-        if (file.isEmpty()) {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND_EXCEPTION);
-        }
-        return file.get();
-    }
-
     public void cleanUp(String folder) {
         log.info("{} 폴더 삭제에 들어옴", folder);
         //static 삭제 , media 넣기
@@ -148,5 +140,13 @@ public class FileService {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+    }
+
+    public File getFile(Long id) {
+        Optional<File> file = fileRepository.findById(id);
+        if (file.isEmpty()) {
+            throw new CustomException(ErrorCode.FILE_NOT_FOUND);
+        }
+        return file.get();
     }
 }

@@ -37,13 +37,13 @@ public class Comment extends BaseEntity {
 
     public void validUser(User user) {
         if (!this.user.equals(user)) {
-            throw new CustomException(ErrorCode.ERROR_FORBIDDEN);
+            throw new CustomException(ErrorCode.ERROR_UNAUTHORIZED);
         }
     }
 
     public void validPost(Post post) {
         if (!this.post.equals(post)) {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND_EXCEPTION);
+            throw new CustomException(ErrorCode.ERROR_BAD_REQUEST);
         }
     }
 

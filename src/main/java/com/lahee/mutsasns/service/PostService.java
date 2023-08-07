@@ -132,7 +132,7 @@ public class PostService {
     public Post getPost(Long id) {
         Optional<Post> post = postRepository.findById(id);
         if (post.isEmpty()) {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND_EXCEPTION);
+            throw new CustomException(ErrorCode.POST_NOT_FOUND);
         }
         return post.get();
     }

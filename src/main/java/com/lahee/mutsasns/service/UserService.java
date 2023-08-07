@@ -85,7 +85,7 @@ public class UserService {
     public User getUser(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND_EXCEPTION);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         return user.get();
     }
