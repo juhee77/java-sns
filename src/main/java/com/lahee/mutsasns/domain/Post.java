@@ -45,6 +45,9 @@ public class Post extends BaseEntity {
     @Builder.Default
     private List<File> postfiles = new ArrayList<>();
 
+    @OneToOne
+    private File thumbnail;
+
     public static Post getEntityInstance(PostRequestDto postRequestDto, User user) {
         return Post.builder()
                 .title(postRequestDto.getTitle())
@@ -55,6 +58,10 @@ public class Post extends BaseEntity {
 
     public void uploadFiles(List<File> files) {
         postfiles = files;
+    }
+
+    public void uploadThumbnail(File file) {
+        thumbnail = file;
     }
 
     public void validUser(User user) {

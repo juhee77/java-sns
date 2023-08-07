@@ -42,6 +42,7 @@ public class SecurityConfig {
             "/docs",
             "/static/**",
             "/api/user/auth/**",
+            "/api/user/{username}",
     };
 
     @Bean //메서드의 결과를 bean 객체로 등록해주는 어노테이션

@@ -1,7 +1,9 @@
 package com.lahee.mutsasns.dto.post;
 
+import com.lahee.mutsasns.domain.Comment;
 import com.lahee.mutsasns.domain.File;
 import com.lahee.mutsasns.domain.Post;
+import com.lahee.mutsasns.dto.comment.CommentResponseDto;
 import com.lahee.mutsasns.dto.file.FileResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,19 +17,23 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostResponseDto {
+public class PostDetailsResponseDto {
 
     private Long id;
     private String title;
     private String text;
+    private String username;
     private FileResponseDto thumbnail;
     private List<FileResponseDto> files;
+    private List<CommentResponseDto> comments;
+    private int heartCnt;
 
-    public static PostResponseDto fromEntity(Post post) {
-        PostResponseDto postResponseDto = new PostResponseDto();
+    public static PostDetailsResponseDto fromEntity(Post post) {
+        PostDetailsResponseDto postResponseDto = new PostDetailsResponseDto();
         postResponseDto.id = post.getId();
         postResponseDto.text = post.getText();
         postResponseDto.title = post.getTitle();
+        postResponseDto.username = post.getUser().getUsername();
 
         if (post.getThumbnail() == null) {
             //썸네일이 없고 포스트에 이미지도 없는 경우
@@ -44,6 +50,14 @@ public class PostResponseDto {
             tempFiles.add(FileResponseDto.fromEntity(postfile));
         }
         postResponseDto.files = tempFiles;
+
+        List<CommentResponseDto> tempComments = new ArrayList<>();
+        for (Comment comment : post.getComments()) {
+            tempComments.add(CommentResponseDto.fromEntity(comment));
+        }
+        postResponseDto.comments = tempComments;
+
+        postResponseDto.heartCnt = post.getPostHearts().size();
 
         return postResponseDto;
     }

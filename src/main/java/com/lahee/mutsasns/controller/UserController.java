@@ -2,6 +2,7 @@ package com.lahee.mutsasns.controller;
 
 
 import com.lahee.mutsasns.dto.ApiResponse;
+import com.lahee.mutsasns.dto.post.PostResponseDto;
 import com.lahee.mutsasns.dto.user.UserResponseDto;
 import com.lahee.mutsasns.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 import static com.lahee.mutsasns.util.SecurityUtil.getCurrentUsername;
 
@@ -33,5 +36,11 @@ public class UserController {
     public ApiResponse<UserResponseDto> saveItemImage(@PathVariable("username") String username, @RequestPart("image") MultipartFile image) {
         UserResponseDto userResponseDto = userService.saveUserImage(username, image, getCurrentUsername());
         return ApiResponse.success(userResponseDto);
+    }
+
+    @GetMapping("/{username}")
+    public ApiResponse<List<PostResponseDto>> getMyPost(@PathVariable("username") String username) {
+        List<PostResponseDto> postResponseDtos = userService.getPost(username);
+        return ApiResponse.success(postResponseDtos);
     }
 }

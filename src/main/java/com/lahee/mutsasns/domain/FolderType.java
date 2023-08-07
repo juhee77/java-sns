@@ -1,7 +1,7 @@
 package com.lahee.mutsasns.domain;
 
 public enum FolderType {
-    USER("user"),POST("post"), COMMENT("comment");
+    USER("user"),POST_THUMB("post-thumb"),POST("post"), COMMENT("comment");
 
     private String name;
 

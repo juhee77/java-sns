@@ -1,20 +1,17 @@
 package com.lahee.mutsasns.controller;
 
 import com.lahee.mutsasns.dto.ApiResponse;
+import com.lahee.mutsasns.dto.post.PostDetailsResponseDto;
 import com.lahee.mutsasns.dto.post.PostRequestDto;
 import com.lahee.mutsasns.dto.post.PostResponseDto;
 import com.lahee.mutsasns.service.PostService;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -32,13 +29,16 @@ public class PostController {
     public ApiResponse<PostResponseDto> savePostWithImage(
             @Valid @RequestPart(value = "postRequestDto") @Parameter(schema = @Schema(type = "string", format = ("binary"))) PostRequestDto postRequestDto,
 //            @Valid @RequestPart @Parameter(name = "postRequestDto",content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE )) PostRequestDto postRequestDto,
-            @RequestPart(name = "files", required = false) @Parameter(required = false, description = "Files to be uploaded", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) List<MultipartFile> files) {
+            @RequestPart(name = "files", required = false) @Parameter(description = "포스트 이미지") List<MultipartFile> files,
+            @RequestPart(name = "file", required = false) @Parameter(description = "포스트 썸네일 이미지 등록하지 않는 경우 자동으로 처음이미지 설정") MultipartFile file) {
 
-//            @RequestPart(value = "files", required = false) List<MultipartFile> files) {
-        log.info("ERRORORORORO {}", postRequestDto.toString());
-        PostResponseDto postResponseDto = postService.saveWithImages(postRequestDto, files, getCurrentUsername());
+        PostResponseDto postResponseDto = postService.saveWithImages(postRequestDto, files, file, getCurrentUsername());
         return ApiResponse.success(postResponseDto);
     }
 
-
+    @GetMapping("/{postId}")
+    public ApiResponse<PostDetailsResponseDto> getOnePost(@PathVariable("postId") Long postId) {
+        PostDetailsResponseDto postById = postService.getPostById(postId);
+        return ApiResponse.success(postById);
+    }
 }

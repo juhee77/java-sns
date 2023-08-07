@@ -3,7 +3,9 @@ package com.lahee.mutsasns.service;
 
 import com.lahee.mutsasns.domain.File;
 import com.lahee.mutsasns.domain.FolderType;
+import com.lahee.mutsasns.domain.Post;
 import com.lahee.mutsasns.domain.User;
+import com.lahee.mutsasns.dto.post.PostResponseDto;
 import com.lahee.mutsasns.dto.user.LoginDto;
 import com.lahee.mutsasns.dto.user.SignupDto;
 import com.lahee.mutsasns.dto.user.TokenDto;
@@ -21,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -84,5 +88,14 @@ public class UserService {
             throw new CustomException(ErrorCode.USER_NOT_FOUND_EXCEPTION);
         }
         return user.get();
+    }
+
+    public List<PostResponseDto> getPost(String username) {
+        User user = getUser(username);
+        List<PostResponseDto> postResponseDtos = new ArrayList<>();
+        for (Post post : user.getPosts()) {
+            postResponseDtos.add(PostResponseDto.fromEntity(post));
+        }
+        return postResponseDtos;
     }
 }
