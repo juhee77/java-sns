@@ -21,8 +21,8 @@ public class swaggerConfig {
     @Bean
     public OpenAPI openAPI(@Value("${springdoc.version}") String appVersion) {
         Info info = new Info()
-                .title("community API doc").version(appVersion)
-                .description("Spring Boot를 이용한 웹 애플리케이션 API입니다.");
+                .title("mutsa-sns API doc").version(appVersion)
+                .description("mutsa-sns api 명세서");
 
         SecurityScheme securityScheme = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
