@@ -15,12 +15,11 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Schema(description = "댓글")
 @Table(name = "comment")
-@SQLDelete(sql = "UPDATE comment SET deleted_at = datetime('now') WHERE id = ?")
+@SQLDelete(sql = "UPDATE comment SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_at IS NULL")
 public class Comment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)

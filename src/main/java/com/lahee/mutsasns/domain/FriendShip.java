@@ -15,7 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @ToString
 @Table(name = "friend_ship")
-@SQLDelete(sql = "UPDATE friend_ship SET deleted_at = datetime('now') WHERE id = ?")
+@SQLDelete(sql = "UPDATE friend_ship SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_at IS NULL")
 @Schema(description = "친구를 관리한다. ")
 public class FriendShip extends BaseEntity {

@@ -18,7 +18,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "user")
 @Builder
-@SQLDelete(sql = "UPDATE sales_item SET deleted_at = datetime('now') WHERE id = ?")
+@SQLDelete(sql = "UPDATE user SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_at IS NULL")
 public class User extends BaseEntity {
     @Id

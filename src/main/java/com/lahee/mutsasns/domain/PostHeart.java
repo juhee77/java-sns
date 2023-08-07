@@ -15,7 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Schema(description = "포스트 좋아요 기능")
 @Table(name = "post_heart")
-@SQLDelete(sql = "UPDATE post_heart SET deleted_at = datetime('now') WHERE id = ?")
+@SQLDelete(sql = "UPDATE post_heart SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_at IS NULL")
 public class PostHeart extends BaseEntity {
     @Id

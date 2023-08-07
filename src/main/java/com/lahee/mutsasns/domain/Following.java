@@ -15,7 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Getter
 @ToString
 @Table(name = "following")
-@SQLDelete(sql = "UPDATE following SET deleted_at = datetime('now') WHERE id = ?")
+@SQLDelete(sql = "UPDATE following SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_at IS NULL")
 @Schema(description = "팔로우를 관리한다 ") //A->B를 팔로우한다.
 public class Following extends BaseEntity {
