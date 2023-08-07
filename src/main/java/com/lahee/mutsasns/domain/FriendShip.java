@@ -1,5 +1,7 @@
 package com.lahee.mutsasns.domain;
 
+import com.lahee.mutsasns.exception.CustomException;
+import com.lahee.mutsasns.exception.ErrorCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,13 +27,31 @@ public class FriendShip extends BaseEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "sender")
-    private User userA;
+    private User sender;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "receiver")
-    private User userB;
+    private User receiver;
 
     @Builder.Default
+    @Enumerated(EnumType.STRING)
     private FriendshipStatus status = FriendshipStatus.PENDING;
 
+    public static FriendShip getInstance(User sender, User receiver) {
+        return FriendShip.builder()
+                .sender(sender)
+                .receiver(receiver)
+                .status(FriendshipStatus.PENDING)
+                .build();
+    }
+
+    public void validReceiver(User receiver) {
+        if (this.receiver != receiver) {
+            throw new CustomException(ErrorCode.ERROR_UNAUTHORIZED);
+        }
+    }
+
+    public void updateStatus(FriendshipStatus status) {
+        this.status = status;
+    }
 }

@@ -21,10 +21,11 @@ public enum ErrorCode {
     FILE_NOT_FOUND(404, "ERR_NOT_FOUND", "찾을 수 없는 파일 입니다."),
     COMMENT_NOT_FOUND(404, "ERR_NOT_FOUND", "찾을 수 없는 코멘트 입니다."),
     POST_NOT_FOUND(404, "ERR_NOT_FOUND", "찾을 수 없는 포스트 입니다."),
-
+    FRIEND_SHIP_NOT_FOUND(404, "ERR_NOT_FOUND", "찾을 수 없는 친구 관계 입니다."),
     INVALID_PASSWORD(404, "", "패스워드가 일치하지 않습니다."),
-    ALREADY_USED_USERNAME(400,"" , "이미 사용된 유저이름 입니다"),
-    ERROR_MY_POST(401,"ERR_UNAUTHORIZED" ,"자신이 작성한 게시글에는 좋아요가 불가능합니다." );
+    ALREADY_USED_USERNAME(400, "", "이미 사용된 유저이름 입니다"),
+    ERROR_MY_POST(401, "ERR_UNAUTHORIZED", "자신이 작성한 게시글에는 좋아요가 불가능합니다."),
+    DUPLICATE_SUGGEST(400, "", "이미 존재하는 제안 입니다.");
 
 
     int status;

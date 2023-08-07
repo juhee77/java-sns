@@ -1,7 +1,5 @@
 package com.lahee.mutsasns.dto.post;
 
-import com.lahee.mutsasns.domain.Comment;
-import com.lahee.mutsasns.domain.File;
 import com.lahee.mutsasns.domain.Post;
 import com.lahee.mutsasns.dto.comment.CommentResponseDto;
 import com.lahee.mutsasns.dto.file.FileResponseDto;
@@ -10,8 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -45,17 +43,15 @@ public class PostDetailsResponseDto {
             postResponseDto.thumbnail = FileResponseDto.fromEntity(post.getThumbnail());
         }
 
-        List<FileResponseDto> tempFiles = new ArrayList<>();
-        for (File postfile : post.getPostfiles()) {
-            tempFiles.add(FileResponseDto.fromEntity(postfile));
-        }
-        postResponseDto.files = tempFiles;
+        postResponseDto.files = post.getPostfiles()
+                .stream().map(FileResponseDto::fromEntity)
+                .collect(Collectors.toList());
 
-        List<CommentResponseDto> tempComments = new ArrayList<>();
-        for (Comment comment : post.getComments()) {
-            tempComments.add(CommentResponseDto.fromEntity(comment));
-        }
-        postResponseDto.comments = tempComments;
+        postResponseDto.comments = post.getComments()
+                .stream()
+                .map(CommentResponseDto::fromEntity)
+                .collect(Collectors.toList());
+
 
         postResponseDto.heartCnt = post.getPostHearts().size();
 

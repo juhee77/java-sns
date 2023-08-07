@@ -1,6 +1,5 @@
 package com.lahee.mutsasns.dto.post;
 
-import com.lahee.mutsasns.domain.File;
 import com.lahee.mutsasns.domain.Post;
 import com.lahee.mutsasns.dto.file.FileResponseDto;
 import lombok.AllArgsConstructor;
@@ -8,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -39,11 +38,9 @@ public class PostResponseDto {
             postResponseDto.thumbnail = FileResponseDto.fromEntity(post.getThumbnail());
         }
 
-        List<FileResponseDto> tempFiles = new ArrayList<>();
-        for (File postfile : post.getPostfiles()) {
-            tempFiles.add(FileResponseDto.fromEntity(postfile));
-        }
-        postResponseDto.files = tempFiles;
+        postResponseDto.files = post.getPostfiles()
+                .stream().map(FileResponseDto::fromEntity)
+                .collect(Collectors.toList());
 
         return postResponseDto;
     }
