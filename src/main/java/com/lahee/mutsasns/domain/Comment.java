@@ -1,5 +1,9 @@
 package com.lahee.mutsasns.domain;
 
+import com.lahee.mutsasns.dto.comment.CommentRequestDto;
+import com.lahee.mutsasns.dto.post.PostRequestDto;
+import com.lahee.mutsasns.exception.CustomException;
+import com.lahee.mutsasns.exception.ErrorCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,4 +34,28 @@ public class Comment extends BaseEntity {
 
     private String content; //댓글내용
 
+
+    public void validUser(User user) {
+        if (!this.user.equals(user)) {
+            throw new CustomException(ErrorCode.ERROR_FORBIDDEN);
+        }
+    }
+
+    public void validPost(Post post) {
+        if (!this.post.equals(post)) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND_EXCEPTION);
+        }
+    }
+
+    public static Comment getEntityInstance(CommentRequestDto commentRequestDto, User user, Post post) {
+        return Comment.builder()
+                .content(commentRequestDto.getContent())
+                .user(user)
+                .post(post)
+                .build();
+    }
+
+    public void update(CommentRequestDto commentRequestDto) {
+        this.content = commentRequestDto.getContent();
+    }
 }
