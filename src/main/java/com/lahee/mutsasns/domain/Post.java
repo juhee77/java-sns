@@ -62,7 +62,8 @@ public class Post extends BaseEntity {
     }
 
     public void uploadFiles(List<File> files) {
-        postfiles = files;
+        postfiles.clear();
+        postfiles.addAll(files);
     }
 
     public void uploadThumbnail(File file) {
@@ -81,12 +82,10 @@ public class Post extends BaseEntity {
         }
     }
 
-
-    public void dropImages() {
-        postfiles = new ArrayList<>();
+    public void clearFiles() {
+        this.postfiles.clear();
     }
-
-    public void dropThumbNailImage() {
-        thumbnail = null;
+    public void clearFile(){
+        this.thumbnail = null;
     }
 }

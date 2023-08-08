@@ -42,7 +42,6 @@ public class PostService {
         Post post = getPost(id);
         post.validSameUser(user);//해당 유저의 포스트가 맞는지 확인한다.
 
-        post.dropImages();
         dropPostFiles(post);
 
         post.uploadFiles(fileService.saveMultiFile(FolderType.POST, post.getId(), files));
@@ -55,7 +54,6 @@ public class PostService {
         Post post = getPost(id);
         post.validSameUser(user);//해당 유저의 포스트가 맞는지 확인한다.
 
-        post.dropThumbNailImage();
         dropThumbnailImage(post);
 
         post.uploadThumbnail(fileService.saveOneFile(FolderType.POST_THUMB, post.getId(), file));
@@ -89,13 +87,17 @@ public class PostService {
         PostResponseDto save = updatePost(post, postRequestDto);
 
         //이미지 업데이트
-        if (file != null) save = savePostThumbnail(postId, file, currentUsername);
-        else if (file == null && files != null) {
-            save = savePostThumbnail(postId, files.get(0), currentUsername);
-        }
-        if (files != null) save = savePostImages(postId, files, currentUsername);
+        //썸네일
+        dropThumbnailImage(post);
+        dropPostFiles(post);
 
-        return save;
+        if (file != null) save = savePostThumbnail(save.getId(), file, currentUsername);
+        else if (file == null && files != null) {
+            save = savePostThumbnail(save.getId(), files.get(0), currentUsername);
+        }
+        if (files != null) save = savePostImages(save.getId(), files, currentUsername);
+
+        return PostResponseDto.fromEntity(getPost(postId));
     }
 
     @Transactional
@@ -117,18 +119,20 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    private void dropPostFiles(Post post) {
+    public void dropPostFiles(Post post) {
         if (post.getPostfiles() != null || post.getPostfiles().size() > 0) { //기존에 이미지가 있는 경우 드랍
             for (File postfile : post.getPostfiles()) {
                 fileService.dropFile(postfile);
             }
         }
+        post.clearFiles();
     }
 
     private void dropThumbnailImage(Post post) {
         if (post.getThumbnail() != null) {
             fileService.dropFile(post.getThumbnail());
         }
+        post.clearFile();
     }
 
     public Post getPost(Long id) {

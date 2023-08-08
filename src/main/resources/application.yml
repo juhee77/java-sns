@@ -9,7 +9,7 @@ spring:
     static-path-pattern: /static/**
   web:
     resources:
-      static-locations: file:media/,classpath:/static,classpath:/static/static
+      static-locations: file:media/,classpath:/static
 
 jwt:
   secret: n714+9J8YzJPHXwB/j+D4TiXc8lr70oADvuEMH0y1r/t5juDBzEA0dsaN4p3AsLdZ/t20lOViNOSCTHP1RKjOA==
