@@ -24,11 +24,11 @@ mutsa - sns Rest 서버 개발
 2. 그래들을 빌드합니다. 터미널,cli환경에서 `gradlew build` 을 입력하는 방법도 있습니다. 
 3. 이후 cli에서 `java -jar build/libs/market-0.0.1-SNAPSHOT.jar`를 실행시킨후
 swagger링크 : [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/) 에 접속합니다. (문서화된 스웨거 링크 )
-4. postman을 이용한 테스트 [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/20454273-f7d820fd-3379-4f5f-b974-d357b9abf0d0?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D20454273-f7d820fd-3379-4f5f-b974-d357b9abf0d0%26entityType%3Dcollection%26workspaceId%3Db747dcc8-4c49-4b8f-af7b-dc540ec24507)
+4. postman을 이용한 테스트 - 하단에 json파일도 있슴다 [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/20454273-f7d820fd-3379-4f5f-b974-d357b9abf0d0?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D20454273-f7d820fd-3379-4f5f-b974-d357b9abf0d0%26entityType%3Dcollection%26workspaceId%3Db747dcc8-4c49-4b8f-af7b-dc540ec24507)
 
 ### 📗 Swagger 사용방법
 1. 메인 화면 
-![img.png](readme/img.png)
+![img.png](readme/img_5.png)
 2. 로그인 후 토큰 발급 (마우스로 드래그한 부분을 복사합니다.)
 ![img_1.png](readme/img_1.png)
 3. Authorize 버튼을 클릭하고 이전에 복사한 값을 넣어줍니다.
@@ -44,7 +44,7 @@ post등록, 수정 부분에서 멀티 파트이미지와 json을 동시에 폼 
 ### 포스트맨 테스트
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/20454273-f7d820fd-3379-4f5f-b974-d357b9abf0d0?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D20454273-f7d820fd-3379-4f5f-b974-d357b9abf0d0%26entityType%3Dcollection%26workspaceId%3Db747dcc8-4c49-4b8f-af7b-dc540ec24507)
 #### [📃포스트맨 문서](https://documenter.getpostman.com/view/20454273/2s9XxzuYB8)
-
+#### [포스트맨 json파일](readme/mutsa-sns.postman_collection.json)
 ## 🌌 프로젝트 실행 기간
 1인 프로젝트   
 1차: 2023/08/06 ~ 2023/08/08  
