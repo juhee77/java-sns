@@ -2,6 +2,7 @@
 
 
 ## 🌟프로젝트 개요
+mutsa - sns Rest 서버 개발
 
 ## 🔨개발 환경
 개발환경 : <img src="https://img.shields.io/badge/mac-000000?style=flate&logo=macos&logoColor=white"><br>
@@ -13,9 +14,6 @@
 <img src="https://img.shields.io/badge/Notion -000000?style=flate&logo=Notion&logoColor=white">
 <img src="https://img.shields.io/badge/postman-FFFFFF?style=flate&logo=postman&logoColor=postman"> <img src="https://img.shields.io/badge/swagger-swagger?style=flate&logo=swagger&logoColor=FFFFFF"><br>
 
-## 📄 요구사항 명세
-
-## 👩🏻‍💻 개발
 
 ### 🗃ER 다이어그램
 ![img.png](readme/img.png)
@@ -26,7 +24,7 @@
 2. 그래들을 빌드합니다. 터미널,cli환경에서 `gradlew build` 을 입력하는 방법도 있습니다. 
 3. 이후 cli에서 `java -jar build/libs/market-0.0.1-SNAPSHOT.jar`를 실행시킨후
 swagger링크 : [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/) 에 접속합니다. (문서화된 스웨거 링크 )
-4. postman을 이용한 테스트 {포스트맨 실행 추가}
+4. postman을 이용한 테스트 [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/20454273-f7d820fd-3379-4f5f-b974-d357b9abf0d0?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D20454273-f7d820fd-3379-4f5f-b974-d357b9abf0d0%26entityType%3Dcollection%26workspaceId%3Db747dcc8-4c49-4b8f-af7b-dc540ec24507)
 
 ### 📗 Swagger 사용방법
 1. 메인 화면 
@@ -35,12 +33,17 @@ swagger링크 : [http://localhost:8080/swagger-ui/index.html#/](http://localhost
 ![img_1.png](readme/img_1.png)
 3. Authorize 버튼을 클릭하고 이전에 복사한 값을 넣어줍니다.
 ![img_2.png](readme/img_2.png)
+![img_7.png](readme/img_7.png)
 4. 이후에 권한이 필요한 API를 테스트 할 수 있습니다.
 
 5. **swagger 확인사항**
 post등록, 수정 부분에서 멀티 파트이미지와 json을 동시에 폼 데이터로 전송하여 해당 부분에서는 json파일을 넣어줘야합니다. 
 해당 부분에서는 readme폴더 내에 있는 post.json파일을 넣어서 테스트할 수 있습니다.
 ![img_4.png](readme/img_4.png)
+
+### 포스트맨 테스트
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/20454273-f7d820fd-3379-4f5f-b974-d357b9abf0d0?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D20454273-f7d820fd-3379-4f5f-b974-d357b9abf0d0%26entityType%3Dcollection%26workspaceId%3Db747dcc8-4c49-4b8f-af7b-dc540ec24507)
+#### [📃포스트맨 문서](https://documenter.getpostman.com/view/20454273/2s9XxzuYB8)
 
 ## 🌌 프로젝트 실행 기간
 1인 프로젝트   

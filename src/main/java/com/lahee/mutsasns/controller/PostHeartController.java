@@ -3,6 +3,7 @@ package com.lahee.mutsasns.controller;
 import com.lahee.mutsasns.dto.ApiResponse;
 import com.lahee.mutsasns.dto.MessageResponse;
 import com.lahee.mutsasns.service.PostHeartService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import static com.lahee.mutsasns.util.SecurityUtil.getCurrentUsername;
 public class PostHeartController {
     private final PostHeartService postHeartService;
 
+    @Operation(summary = "피드 좋아요 기능")
     @PostMapping
     public ApiResponse<MessageResponse> like(
             @PathVariable("postId") Long postId

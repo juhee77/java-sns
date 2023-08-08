@@ -41,7 +41,7 @@ public class UserController {
         UserResponseDto userResponseDto = userService.saveUserImage(username, image, getCurrentUsername());
         return ApiResponse.success(userResponseDto);
     }
-
+    @Operation(summary = "자신의 피드")
     @GetMapping("/{username}")
     public ApiResponse<List<PostResponseDto>> getMyPost(
             @PathVariable("username") String username
@@ -50,6 +50,7 @@ public class UserController {
         return ApiResponse.success(postResponseDtos);
     }
 
+    @Operation(summary = "팔로우한 친구의 피드")
     @GetMapping("/{username}/following/feed")
     public ApiResponse<List<PostResponseDto>> getFollowingPosts(
             @PathVariable("username") String username
@@ -57,7 +58,7 @@ public class UserController {
         return ApiResponse.success(userService.getFollowingPost(username, getCurrentUsername()));
     }
 
-
+    @Operation(summary = "친구의 피드를 불러온다.")
     @GetMapping("/{username}/friends/feed")
     public ApiResponse<List<PostResponseDto>> getFriendsPosts(
             @PathVariable("username") String username

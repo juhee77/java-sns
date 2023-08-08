@@ -7,6 +7,7 @@ import com.lahee.mutsasns.dto.post.PostRequestDto;
 import com.lahee.mutsasns.dto.post.PostResponseDto;
 import com.lahee.mutsasns.service.PostService;
 import com.lahee.mutsasns.util.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -28,6 +29,7 @@ import static com.lahee.mutsasns.util.SecurityUtil.getCurrentUsername;
 public class PostController {
     private final PostService postService;
 
+    @Operation(summary = "피드 작성")
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ApiResponse<PostResponseDto> savePostWithImage(
             @Valid @RequestPart(value = "postRequestDto") @Parameter(schema = @Schema(type = "string", format = ("binary"))) PostRequestDto postRequestDto,
@@ -38,13 +40,7 @@ public class PostController {
         return ApiResponse.success(postResponseDto);
     }
 
-    @GetMapping("/{postId}")
-    public ApiResponse<PostDetailsResponseDto> getOnePost(@PathVariable("postId") Long postId
-    ) {
-        PostDetailsResponseDto postById = postService.getPostById(postId);
-        return ApiResponse.success(postById);
-    }
-
+    @Operation(summary = "피드 수정")
     @PutMapping(value = "/{postId}",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ApiResponse<PostResponseDto> updatePost(
             @PathVariable("postId") Long postId,
@@ -56,6 +52,15 @@ public class PostController {
         return ApiResponse.success(postById);
     }
 
+    @Operation(summary = "피드 단일 조회")
+    @GetMapping("/{postId}")
+    public ApiResponse<PostDetailsResponseDto> getOnePost(@PathVariable("postId") Long postId
+    ) {
+        PostDetailsResponseDto postById = postService.getPostById(postId);
+        return ApiResponse.success(postById);
+    }
+
+    @Operation(summary = "피드 삭제")
     @DeleteMapping("/{postId}")
     public ApiResponse<MessageResponse> deletePost(
             @PathVariable("postId") Long postId

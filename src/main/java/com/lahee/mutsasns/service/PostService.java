@@ -42,6 +42,7 @@ public class PostService {
         Post post = getPost(id);
         post.validSameUser(user);//해당 유저의 포스트가 맞는지 확인한다.
 
+        post.dropImages();
         dropPostFiles(post);
 
         post.uploadFiles(fileService.saveMultiFile(FolderType.POST, post.getId(), files));
@@ -54,6 +55,7 @@ public class PostService {
         Post post = getPost(id);
         post.validSameUser(user);//해당 유저의 포스트가 맞는지 확인한다.
 
+        post.dropThumbNailImage();
         dropThumbnailImage(post);
 
         post.uploadThumbnail(fileService.saveOneFile(FolderType.POST_THUMB, post.getId(), file));

@@ -82,14 +82,6 @@ public class UserService {
         return UserResponseDto.fromEntity(getUser(username));
     }
 
-    public User getUser(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        if (user.isEmpty()) {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
-        }
-        return user.get();
-    }
-
     public List<PostResponseDto> getPost(String username) {
         User user = getUser(username);
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
@@ -140,4 +132,12 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+
+    public User getUser(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isEmpty()) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+        return user.get();
+    }
 }

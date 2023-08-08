@@ -82,4 +82,11 @@ public class Post extends BaseEntity {
     }
 
 
+    public void dropImages() {
+        postfiles = new ArrayList<>();
+    }
+
+    public void dropThumbNailImage() {
+        thumbnail = null;
+    }
 }
