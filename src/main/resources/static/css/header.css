@@ -1,0 +1,19 @@
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    font-size: 18px;
+    color: #333;
+}
+
+.navbar-nav .login-link,
+.navbar-nav .signup-link {
+    color: #fff;
+}
+
+.navbar-nav .login-link:hover,
+.navbar-nav .signup-link:hover {
+    color: #ddd;
+}

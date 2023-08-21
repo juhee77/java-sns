@@ -44,9 +44,13 @@ dependencies {
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.springframework.security:spring-security-test'
 
-	// sqlite
-	runtimeOnly 'org.xerial:sqlite-jdbc:3.41.2.2'
-	runtimeOnly 'org.hibernate.orm:hibernate-community-dialects:6.2.4.Final'
+//	// sqlite
+//	runtimeOnly 'org.xerial:sqlite-jdbc:3.41.2.2'
+//	runtimeOnly 'org.hibernate.orm:hibernate-community-dialects:6.2.4.Final'
+
+// mysql
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	implementation 'mysql:mysql-connector-java:8.0.33'
 
 	//h2
 	runtimeOnly 'com.h2database:h2'
@@ -59,6 +63,9 @@ dependencies {
 	//swagger 3.0
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+
+	// Layout Dialect
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 }
 
 tasks.named('test') {

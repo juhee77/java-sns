@@ -1,6 +1,8 @@
 spring:
   profiles:
     default: dev
+  thymeleaf:
+    prefix: classpath:/templates/
   servlet:
     multipart:
       max-file-size: 10MB

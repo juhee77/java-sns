@@ -3,14 +3,16 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:sqlite:db.sqlite
-    driver-class-name: org.sqlite.JDBC
+    url: jdbc:mysql://localhost:3306/mutsa_market
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: create
     show-sql: true
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
-    defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.MySQLDialect
   sql:
     init:
       mode: always
