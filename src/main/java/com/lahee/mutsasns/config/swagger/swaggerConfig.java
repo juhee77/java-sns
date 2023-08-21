@@ -1,4 +1,4 @@
-package com.lahee.mutsasns.config;
+package com.lahee.mutsasns.config.swagger;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

@@ -32,7 +32,7 @@ public class PostController {
     @Operation(summary = "피드 작성")
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ApiResponse<PostResponseDto> savePostWithImage(
-            @Valid @RequestPart(value = "postRequestDto") @Parameter(schema = @Schema(type = "string", format = ("binary"))) PostRequestDto postRequestDto,
+            @Valid @RequestPart(name="postRequestDto") PostRequestDto postRequestDto,
             @RequestPart(name = "files", required = false) @Parameter(description = "포스트 이미지") List<MultipartFile> files,
             @RequestPart(name = "file", required = false) @Parameter(description = "포스트 썸네일 이미지 등록하지 않는 경우 자동으로 처음이미지 설정") MultipartFile file
     ) {
